@@ -1,9 +1,60 @@
-# Smart Campus API
+# 🏛️ Smart Campus API
 
-## Overview
-The Smart Campus API is a robust, highly available RESTful web service designed to manage university infrastructure, including thousands of rooms and their associated hardware sensors (e.g., CO2 monitors, occupancy trackers, temperature sensors). 
+> A highly robust, thread-safe RESTful web service built with **Jakarta EE (JAX-RS)** for managing university infrastructure, including thousands of rooms and hardware sensors (CO2 monitors, temperature sensors, etc.).
 
-This backend architecture is built strictly using **JAX-RS (Jakarta RESTful Web Services)** and relies on thread-safe, in-memory data structures (`ConcurrentHashMap`) to handle concurrent client requests without a traditional database. It features deep resource nesting via the Sub-Resource Locator pattern, comprehensive HATEOAS hypermedia links, and a resilient, global exception-handling architecture.
+---
+
+## 🛠️ Technology Stack
+
+| Component | Technology Used |
+|---|---|
+| **Language** | Java 11+ (Tested on JDK 21) |
+| **Framework** | Jakarta RESTful Web Services (JAX-RS) |
+| **Application Server** | GlassFish Server 7.x |
+| **Build Tool** | Apache Maven |
+| **Data Storage** | In-Memory (`ConcurrentHashMap`) |
+| **Architecture** | REST, Sub-Resource Locators, HATEOAS |
+
+---
+
+## 📂 Project Architecture
+
+The application enforces a strict separation of concerns, utilizing global exception mappers and JAX-RS filters to keep resource controllers clean and focused strictly on business logic.
+
+```text
+src/main/java/com/smartcampus/
+├── config/
+│   ├── SmartCampusApplication.java        ← JAX-RS Application Base Path (/api/v1)
+│   └── LoggingFilter.java                 ← Global API Request/Response Interceptor
+├── model/
+│   ├── Room.java                          ← Room Entity POJO
+│   ├── Sensor.java                        ← Sensor Entity POJO
+│   └── SensorReading.java                 ← Historical Reading POJO
+├── repository/
+│   └── DataStore.java                     ← Thread-safe Singleton Database
+├── resource/
+│   ├── DiscoveryResource.java             ← API Root / HATEOAS Links
+│   ├── SensorRoomResource.java            ← Room Management Endpoints
+│   ├── SensorResource.java                ← Sensor Management Endpoints
+│   └── SensorReadingResource.java         ← Delegated Sub-Resource Locator
+└── exception/
+    ├── GlobalExceptionMapper.java         ← HTTP 500 Catch-all 
+    ├── RoomNotEmptyExceptionMapper.java   ← HTTP 409 Conflict
+    ├── SensorUnavailableException...      ← HTTP 403 Forbidden
+    └── LinkedResourceNotFound...          ← HTTP 422 Unprocessable Entity
+
+---
+
+HTTP Method,Endpoint,Description,Status Code
+GET,/api/v1/,API Discovery & Hypermedia Links,200 OK
+GET,/api/v1/rooms,Retrieve all registered rooms,200 OK
+POST,/api/v1/rooms,Register a new room,201 Created
+GET,/api/v1/rooms/{id},Retrieve specific room metadata,200 OK
+DELETE,/api/v1/rooms/{id},Delete a room (Blocked if sensors attached),204 No Content
+GET,/api/v1/sensors,Retrieve sensors (Supports ?type= filtering),200 OK
+POST,/api/v1/sensors,Register a new sensor linked to a room,201 Created
+GET,/api/v1/sensors/{id}/readings,Sub-Resource: Get reading history,200 OK
+POST,/api/v1/sensors/{id}/readings,Sub-Resource: Add a new reading,201 Created
 
 ---
 
