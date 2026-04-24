@@ -42,7 +42,7 @@ src/main/java/com/smartcampus/
     ├── RoomNotEmptyExceptionMapper.java   ← HTTP 409 Conflict
     ├── SensorUnavailableException...      ← HTTP 403 Forbidden
     └── LinkedResourceNotFound...          ← HTTP 422 Unprocessable Entity
-
+```
 ---
 
 HTTP Method,Endpoint,Description,Status Code
