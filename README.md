@@ -44,7 +44,7 @@ src/main/java/com/smartcampus/
     └── LinkedResourceNotFound...          ← HTTP 422 Unprocessable Entity
 ```
 ---
-
+```
 HTTP Method,Endpoint,Description,Status Code
 GET,/api/v1/,API Discovery & Hypermedia Links,200 OK
 GET,/api/v1/rooms,Retrieve all registered rooms,200 OK
@@ -55,7 +55,7 @@ GET,/api/v1/sensors,Retrieve sensors (Supports ?type= filtering),200 OK
 POST,/api/v1/sensors,Register a new sensor linked to a room,201 Created
 GET,/api/v1/sensors/{id}/readings,Sub-Resource: Get reading history,200 OK
 POST,/api/v1/sensors/{id}/readings,Sub-Resource: Add a new reading,201 Created
-
+```
 ---
 
 ## Build and Launch Instructions
