@@ -1,10 +1,10 @@
-# 🏛️ Smart Campus API
+# Smart Campus API
 
 > A highly robust, thread-safe RESTful web service built with **Jakarta EE (JAX-RS)** for managing university infrastructure, including thousands of rooms and hardware sensors (CO2 monitors, temperature sensors, etc.).
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Component | Technology Used |
 |---|---|
@@ -17,7 +17,7 @@
 
 ---
 
-## 📂 Project Architecture
+## Project Architecture
 
 The application enforces a strict separation of concerns, utilizing global exception mappers and JAX-RS filters to keep resource controllers clean and focused strictly on business logic.
 
